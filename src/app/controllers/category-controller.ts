@@ -13,66 +13,207 @@ export default class CategoryController {
     this.service = container.resolve(CategoryService);
   }
 
-  async create(request: Request, response: Response) {
+  async create(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+			#swagger.description = 'Creates a category'
+    */
+
     const name = request.body.name as string;
+    /*  
+      #swagger.requestBody = {
+        required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CategoryRequest"
+              }  
+            }
+          }
+        } 
+    */
 
     try {
       const category = await this.service.create({ name });
 
-      return response.status(HttpStatusEnum.CREATED).json(category);
+      response.status(HttpStatusEnum.CREATED).json(category);
+      /*  
+        #swagger.responses[201] = {
+            content: {
+              "application/json": {
+                schema:{
+                    $ref: "#/components/schemas/CategoryResponse"
+                }
+              }           
+            }
+        }   
+      */
     } catch (e: any) {
-      throw new ErrorResponse(HttpStatusEnum.BAD_REQUEST, e.message, e);
+      response
+        .status(HttpStatusEnum.BAD_REQUEST)
+        .json(new ErrorResponse(HttpStatusEnum.BAD_REQUEST, e.message, e));
+      /*  
+        #swagger.responses[400] = {
+            content: {
+              "application/json": {
+                schema:{
+                    $ref: "#/components/schemas/Error"
+                }
+              }           
+            }
+        }   
+      */
     }
   }
 
-  async findAll(request: Request, response: Response): Promise<Response> {
+  async findAll(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+      #swagger.description = 'Finds all categories'
+    */
+
     const name = request.query.name as string;
 
     const categories = await this.service.findAll(name);
 
-    return response.status(HttpStatusEnum.OK).json({ categories });
+    response.status(HttpStatusEnum.OK).json({ categories });
+    /*  
+      #swagger.responses[200] = {
+          description: "",
+          content: {
+            "application/json": {
+              schema:{
+                  $ref: "#/components/schemas/CategoryListResponse"
+              }
+            }           
+          }
+      }   
+    */
   }
 
-  async findById(request: Request, response: Response): Promise<Response> {
+  async findById(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+      #swagger.description = 'Finds a category by its id'
+    */
+
     const { category_id } = request.params;
     const category = await this.service.findById(+category_id);
 
-    if (!category) return response.status(HttpStatusEnum.NOT_FOUND).send();
+    if (!category) response.status(HttpStatusEnum.NOT_FOUND).send();
+    /*  
+      #swagger.responses[404] = {
+          description: "",
+      }   
+    */
 
-    return response.status(HttpStatusEnum.OK).json({ category });
+    response.status(HttpStatusEnum.OK).json({ category });
+    /*  
+      #swagger.responses[200] = {
+          description: "",
+          content: {
+            "application/json": {
+              schema:{
+                  $ref: "#/components/schemas/CategoryResponse"
+              }
+            }           
+          }
+      }   
+    */
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
-    const { category_id } = request.params;
+  async update(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+      #swagger.description = 'Updates a category'
+    */
 
+    const { category_id } = request.params;
     const id = +category_id;
     const name = request.body.name as string;
+    /*  
+      #swagger.requestBody = {
+        required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CategoryRequest"
+              }  
+            }
+          }
+      } 
+    */
 
     try {
       const category = await this.service.update({ id, name });
 
-      if (!category) return response.status(HttpStatusEnum.NOT_FOUND).send();
+      if (!category) response.status(HttpStatusEnum.NOT_FOUND).send();
+      /*  
+        #swagger.responses[404] = {
+            description: "",
+        }   
+      */
 
-      return response.status(HttpStatusEnum.OK).json({ category });
+      response.status(HttpStatusEnum.OK).json({ category });
+      /*  
+        #swagger.responses[200] = {
+            description: "",
+            content: {
+              "application/json": {
+                schema:{
+                    $ref: "#/components/schemas/CategoryResponse"
+                }
+              }           
+            }
+        }   
+      */
     } catch (e: any) {
-      throw new ErrorResponse(HttpStatusEnum.BAD_REQUEST, e.message, e);
+      response
+        .status(HttpStatusEnum.BAD_REQUEST)
+        .json(new ErrorResponse(HttpStatusEnum.BAD_REQUEST, e.message, e));
+      /*  
+        #swagger.responses[400] = {
+            content: {
+              "application/json": {
+                schema:{
+                    $ref: "#/components/schemas/Error"
+                }
+              }           
+            }
+        }   
+      */
     }
   }
 
-  async deleteAll(request: Request, response: Response): Promise<Response> {
+  async deleteAll(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+      #swagger.description = 'Deletes all categories'
+    */
+
     const { ids } = request.query;
     const arrayIds: number[] = (ids as string)?.split(",").map((id) => +id);
 
     await this.service.deleteAll(arrayIds);
 
-    return response.status(HttpStatusEnum.NO_CONTENT).send();
+    response.status(HttpStatusEnum.NO_CONTENT).send();
+    /*  
+      #swagger.responses[204] = {
+          description: "",
+      }   
+    */
   }
 
-  async deleteById(request: Request, response: Response): Promise<Response> {
+  async deleteById(request: Request, response: Response): Promise<void> {
+    /*
+      #swagger.tags = ['Category']
+      #swagger.description = 'Deletes a category by its id'
+    */
+
     const { category_id } = request.params;
 
     await this.service.deleteById(+category_id);
 
-    return response.status(HttpStatusEnum.NO_CONTENT).send();
+    response.status(HttpStatusEnum.NO_CONTENT).send();
   }
 }

@@ -2,10 +2,10 @@
 
 Projeto para validar conceitos referente ao desenvolvimento mobile, proposto pelo professor Diogo Rodrigues da disciplina de **Desenvolvimento de Aplicativos para Dispositivos Móveis** da Pós-Graduação de **Engenharia de Software 2024.1** do Centro Universitário Frassinetti do Recife (**UniFAFIRE**).
 
-A RemindME API é uma interface REST desenvolvida em TypeScript com Node.js(Express), projetada para o gerenciamento de lembretes personalizáveis. Sua arquitetura segue o padrão em camadas (entities, controllers, services, repositories), com suporte à injeção de dependências.
+A RemindME API é uma interface REST desenvolvida em TypeScript com Node.js(Express), projetada para o gerenciamento de lembretes personalizáveis. Sua arquitetura segue o padrão em camadas (routes, controllers, services, repositories), com suporte à injeção de dependências.
 A persistência de dados é realizada através do MySQL, com uso do ORM Prisma para acesso e manipulação de dados.
 
-Além das operações CRUD, a API também oferece suporte à criação de notificações push, utilizando o modelo Web Push API. Essa funcionalidade permite disparos automatizados de alertas com base na data e hora configuradas.
+Além das operações CRUD, a API também oferece suporte à criação de notificações push, utilizando o modelo Web Push API. Essa funcionalidade permite disparos automatizados de notificações com base na data e hora configuradas.
 
 ---
 
@@ -13,7 +13,7 @@ Além das operações CRUD, a API também oferece suporte à criação de notifi
 
 - ✅ Criação de **Lembretes** com título, categoria, descrição, *data, *hora e cor.
 - ✅ Edição, consulta e exclusão de **Lembretes**.
-- ✅ Criação de **Notificações Push**
+- ✅ Criação de **Notificações Push**.
 
 ---
 
@@ -66,26 +66,22 @@ DATABASE_URL = mysql://usuario:senha@localhost:3306/nome_do_banco
   npm run prisma-create-db
 ```
 
-#### 6. (Opcional) Para popular o banco de dados execute o comando:
-
-```bash
-  npm run prisma-seed
-```
-
-#### 7. Execute a aplicação:
+#### 6. Execute a aplicação:
 
 ```bash
   npm run start
 ```
 
----
-
-## 🔍 Documentação do Swagger
-
-#### Após executar a API, acesse a documentação interativa:
+#### 7. Para popular o banco de dados execute o comando:
 
 ```bash
-  http://localhost:7000/docs
+  npm run prisma-seed
+```
+
+#### 8. Para resetar o banco de dados execute o comando:
+
+```bash
+  npm run prisma-seed
 ```
 
 ---
@@ -99,6 +95,28 @@ DATABASE_URL = mysql://usuario:senha@localhost:3306/nome_do_banco
 ```bash
   npm run prisma-migrate -- [nome_da_migration]
 ```
+
+---
+
+## 📚 Documentação
+
+#### 📄 Documento de Proposta ([link](https://drive.google.com/file/d/1gSqBN1tkgqKNzLmA1-FhjmNPGV-kybfk/view?usp=sharing))
+
+#### 📝 Documentação do Swagger
+
+##### Após executar a API, acesse a documentação interativa do Swagger:
+
+```bash
+  http://localhost:7000/docs
+```
+
+---
+
+## 🎨 Protótipos
+
+#### 🔗 Protótipo de média fidelidade ([figma](https://www.figma.com/proto/ukMmdmSIPruu17W5Thp1TD/lembre.me?page-id=41%3A557&node-id=41-647&p=f&viewport=219%2C73%2C0.25&t=QRAPeAH9GaOXDzbB-8&scaling=scale-down&content-scaling=responsive&starting-point-node-id=41%3A647&hide-ui=1))
+
+#### 🔗 Protótipo de alta fidelidade ([figma](http://))
 
 ---
 

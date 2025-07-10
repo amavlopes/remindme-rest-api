@@ -1,8 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
-import CategoryRepository from "../repositories/category-repository";
 import ICategory from "../interfaces/category";
-
+import CategoryRepository from "../repositories/category-repository";
 @injectable()
 export default class CategoryService {
   constructor(
