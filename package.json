@@ -12,8 +12,7 @@
     "prisma-queries": "npx tsx watch ./prisma/index.ts",
     "prisma-reset": "npx prisma migrate reset --skip-seed",
     "prisma-migrate": "npx prisma migrate dev --name",
-    "swagger": "npx tsx watch --include ./src/** ./swagger.ts",
-    "test": ""
+    "swagger": "npx tsx watch --include ./src/** ./swagger.ts"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +35,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
-    "swagger-ui-express": "^5.0.1"
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "tsyringe": "^4.10.0"
   }
 }
