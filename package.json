@@ -1,0 +1,41 @@
+{
+  "name": "remindme-rest-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "prisma": {
+    "seed": "npx tsx ./prisma/seed.ts"
+  },
+  "scripts": {
+    "start": "npx tsx watch --include ./src/** ./src/index.ts",
+    "prisma-create-db": "npx prisma migrate dev --skip-seed",
+    "prisma-seed": "npx prisma db seed",
+    "prisma-queries": "npx tsx watch ./prisma/index.ts",
+    "prisma-reset": "npx prisma migrate reset --skip-seed",
+    "prisma-migrate": "npx prisma migrate dev --name",
+    "swagger": "npx tsx watch --include ./src/** ./swagger.ts",
+    "test": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.12",
+    "@types/swagger-ui-express": "^4.1.8",
+    "prettier": "3.6.2",
+    "prisma": "^6.11.1",
+    "swagger-autogen": "^2.23.7",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
