@@ -31,11 +31,13 @@ export default class ReminderRepository {
 
 		const resultado = await this.prismaClient.reminder.findMany({
 			where: {
-				...(params.keyword && { name: { contains: params.keyword } }),
+				...(params.keyword && {
+					OR: [{ name: { contains: params.keyword } }, { description: { contains: params.keyword } }],
+				}),
 				...(params.color && { color: params.color }),
 				...(params.categoryId && { categoryId: params.categoryId }),
-				...(params.keyword && { description: { contains: params.keyword } }),
 			},
+
 			include: { category: true },
 			omit: { categoryId: true },
 		})
