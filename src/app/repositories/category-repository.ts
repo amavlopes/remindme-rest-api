@@ -1,95 +1,96 @@
-import { injectable, inject } from "tsyringe";
-import { PrismaClient } from "@prisma/client";
+import { injectable, inject } from 'tsyringe'
+import { PrismaClient } from '@prisma/client'
 
-import ICategory from "../interfaces/category";
+import ICategory from '../interfaces/category'
 
 @injectable()
 export default class CategoryRepository {
-  constructor(
-    @inject("PrismaClient")
-    private prismaClient: PrismaClient
-  ) {}
+	constructor(
+		@inject('PrismaClient')
+		private prismaClient: PrismaClient
+	) {}
 
-  async create(category: ICategory): Promise<ICategory> {
-    this.prismaClient.$connect();
+	async create(category: ICategory): Promise<ICategory> {
+		this.prismaClient.$connect()
 
-    const resultado = await this.prismaClient.category.create({
-      data: { ...category },
-    });
+		const resultado = await this.prismaClient.category.create({
+			data: { ...category },
+		})
 
-    this.prismaClient.$disconnect();
+		this.prismaClient.$disconnect()
 
-    return resultado;
-  }
+		return resultado
+	}
 
-  async findAll(name: string): Promise<ICategory[]> {
-    this.prismaClient.$connect();
+	async findAll(name: string): Promise<ICategory[]> {
+		this.prismaClient.$connect()
 
-    const resultado = await this.prismaClient.category.findMany({
-      where: {
-        ...(name && { name: { contains: name } }),
-      },
-    });
+		const resultado = await this.prismaClient.category.findMany({
+			where: {
+				...(name && { name: { contains: name } }),
+			},
+		})
 
-    this.prismaClient.$disconnect();
+		this.prismaClient.$disconnect()
 
-    return resultado;
-  }
+		return resultado
+	}
 
-  async findById(id: number): Promise<ICategory> {
-    this.prismaClient.$connect();
+	async findById(id: number): Promise<ICategory> {
+		this.prismaClient.$connect()
 
-    const resultado = await this.prismaClient.category.findUnique({
-      where: { id },
-    });
+		const resultado = await this.prismaClient.category.findUnique({
+			where: { id },
+		})
 
-    this.prismaClient.$disconnect();
+		this.prismaClient.$disconnect()
 
-    return resultado;
-  }
+		return resultado
+	}
 
-  async update(category: ICategory): Promise<ICategory | null> {
-    const { id, name } = category;
+	async update(category: ICategory): Promise<ICategory | null> {
+		const { id } = category
 
-    this.prismaClient.$connect();
+		this.prismaClient.$connect()
 
-    const resultado = await this.prismaClient.category.update({
-      data: { name },
-      where: { id },
-    });
+		delete category.id
+		const resultado = await this.prismaClient.category.update({
+			data: category,
+			where: { id },
+		})
 
-    this.prismaClient.$disconnect();
+		this.prismaClient.$disconnect()
 
-    return resultado;
-  }
+		return resultado
+	}
 
-  async deleteAll(): Promise<void> {
-    this.prismaClient.$connect();
+	async deleteAll(): Promise<void> {
+		this.prismaClient.$connect()
 
-    await this.prismaClient.category.deleteMany();
+		await this.prismaClient.category.deleteMany()
 
-    this.prismaClient.$disconnect();
-  }
+		this.prismaClient.$disconnect()
+	}
 
-  async deleteAllByIds(ids: number[]): Promise<void> {
-    this.prismaClient.$connect();
+	async deleteAllByIds(ids: number[]): Promise<void> {
+		this.prismaClient.$connect()
 
-    await this.prismaClient.category.deleteMany({
-      where: {
-        id: { in: ids },
-      },
-    });
+		await this.prismaClient.category.deleteMany({
+			where: {
+				id: { in: ids },
+			},
+		})
 
-    this.prismaClient.$disconnect();
-  }
+		this.prismaClient.$disconnect()
+	}
 
-  async deleteById(id: number): Promise<void> {
-    this.prismaClient.$connect();
+	async deleteById(id: number): Promise<void> {
+		this.prismaClient.$connect()
 
-    await this.prismaClient.category.delete({
-      where: { id },
-    });
+		await this.prismaClient.category.delete({
+			where: { id },
+		})
 
-    this.prismaClient.$disconnect();
-  }
+		this.prismaClient.$disconnect()
+	}
 }

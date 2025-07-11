@@ -59,6 +59,7 @@
           {
             "name": "name",
             "in": "query",
+            "example": "Alimentação",
             "schema": {
               "type": "string"
             }
@@ -85,6 +86,7 @@
         "parameters": [
           {
             "name": "ids",
+            "example": "1,4",
             "in": "query",
             "schema": {
               "type": "string"
@@ -111,7 +113,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -142,7 +145,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -193,7 +197,224 @@
             "required": true,
             "schema": {
               "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/reminders/": {
+      "post": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Creates a reminder",
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReminderResponse"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReminderRequest"
+              }
             }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Finds all reminders",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "Finds all reminders by keyword",
+            "example": "supermercado",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "Finds all reminders by categoryId",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "description": "Finds all reminders by hexadecimal color",
+            "example": "#F6F5FF",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReminderListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Deletes all reminders",
+        "parameters": [
+          {
+            "name": "ids",
+            "example": "1,4",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/reminders/{reminder_id}": {
+      "get": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Finds a reminder by its id",
+        "parameters": [
+          {
+            "name": "reminder_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReminderResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Updates a reminder",
+        "parameters": [
+          {
+            "name": "reminder_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReminderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReminderRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reminder"
+        ],
+        "description": "Deletes a reminder by its id",
+        "parameters": [
+          {
+            "name": "reminder_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -232,11 +453,105 @@
         }
       },
       "CategoryListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Alimentação"
+            }
+          }
+        }
+      },
+      "ReminderRequest": {
         "type": "object",
         "properties": {
-          "categories": {
-            "type": "array",
-            "items": {
+          "name": {
+            "type": "string",
+            "example": "Ir ao supermercado"
+          },
+          "color": {
+            "type": "string",
+            "example": "#E1F5C4"
+          },
+          "categoryId": {
+            "type": "number",
+            "example": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Comprar pão, ovos e leite"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "example": "2025-07-11T11:00:00.000Z"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ReminderResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Ir ao supermercado"
+          },
+          "color": {
+            "type": "string",
+            "example": "#E1F5C4"
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Alimentação"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "example": "Comprar pão, ovos e leite"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "example": "2025-07-11T11:00:00.000Z"
+          }
+        }
+      },
+      "ReminderListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Ir ao supermercado"
+            },
+            "color": {
+              "type": "string",
+              "example": "#E1F5C4"
+            },
+            "category": {
               "type": "object",
               "properties": {
                 "id": {
@@ -248,6 +563,14 @@
                   "example": "Alimentação"
                 }
               }
+            },
+            "description": {
+              "type": "string",
+              "example": "Comprar pão, ovos e leite"
+            },
+            "scheduledAt": {
+              "type": "string",
+              "example": "2025-07-11T11:00:00.000Z"
             }
           }
         }
