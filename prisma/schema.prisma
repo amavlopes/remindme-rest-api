@@ -27,9 +27,9 @@ model Category {
 model Reminder {
   id          Int       @id @default(autoincrement())
   name        String    @unique @db.VarChar(255)
+  color       String?   @default("#FFFFFF")
   categoryId  Int?
   category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  color       String    @default("#EFEEFF")
   description String?   @db.Text
   scheduledAt DateTime?
   createdAt   DateTime  @default(now())
